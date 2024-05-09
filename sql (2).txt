@@ -1,0 +1,206 @@
+# ----------create department table------------------
+
+-->dept_id(primary key) ,dept_name(default null) ,
+
+Ans :- create table department(
+	"dept_id" integer not null,
+	"dept_name" text null,
+	constraint "deptartment_pkey" primary key ("dept_id")
+       )
+
+
+# ----------insert data in deaprtment table--------------
+
+Ans :- insert into department values (1, 'HR')
+       insert into department values (2,'Manager')	
+
+# -----------create employee table---------------------
+
+-->emp_id(emp_id),emp_name ,email ,dob_date ,join_date ,salary,gender  ,dpt_id ,created_at ,updated_at 
+
+Ans :-  create table employee(
+	"emp_id" integer not null,
+	"dept_id" integer, 
+	"emp_name" text not null,
+	"email" text not null unique,
+	"dob_date" date not null,
+	"join_date" date not null,
+	"salary" integer not null,
+	"gender" text not null,
+	primary key("emp_id"),
+	constraint fk_department foreign key(dept_id) references department(dept_id),
+	"created_at" timestamp not null default now(),
+  	"updated_at" timestamp not null default now()
+	
+);  
+
+# ---------------insert data employee data----------------
+
+Ans :-  insert into employee values(1,1,'vikas', 'vikas@gmail.com','1999/10/01','2023/05/01',15000,'male')
+        insert into employee values(2,2,'hiren', 'hiren@gmail.com','1997/02/24','2022/07/07',27000,'male')
+
+#  --------where And -------------
+
+Ans :-  select *from employee where emp_name = 'vikas' and salary=15000;
+
+# -------where Or ------------------
+
+Ans :-  select *from employee where emp_name = 'vikas' or emp_name = 'sripati';
+
+
+# ==========all comaprison opeartor======================
+
+#  < , > , <= ,>= , = , <> or !=
+
+Ans :-  (=)  select *from employee where emp_name = 'vikas'
+Ans :-  (<>) select *from employee where emp_name <> 'vikas' (show all data without vikas record)
+Ans :-  (!=) select *from employee where emp_name != 'vikas' (show all data without vikas record)
+Ans :-  (>)  select *from employee where salary > 20000
+Ans :-  (<)  select *from employee where salary < 20000
+Ans :-  (>=)  select *from employee where salary >= 20000
+Ans :-  (<=)  select *from employee where salary <= 20000
+
+# 1 ---Write a query to display all employee with a salary above 15,000.-------------------------------------
+
+Ans:- select *from employee where salary > 15000
+
+# 2----Write a SQL statement to display all employee name,dob,gender.and salary whose salary is less than 12000.-----
+
+Ans :-  select (emp_name,dob_date,gender)from employee where salary < 12000
+
+#3 ----Write a SQL statement to display all the female employee, whose salary is not equal to 10011.--------------
+
+Ans :- select * from employee where gender='female' and salary != 10011
+ 
+# 4----Write a query to display all information of employee whose employee id is 7;--------------
+
+Ans :- select * from employee where emp_id = 7
+ 
+# ========================IN============================
+
+#1---- Write a query to sort out those employees with all information whose ID value is within any of 3007, 5003 and 10000.-----
+
+Ans :- select *from employee where emp_id in(3,7,1)
+
+#2 ----write a query to sort out those employee with all information whose id value is not in range 3007,5003 and 10000 and whose salary is less or equal to 15000-----
+
+Ans :-  select *from employee where salary <15000 and emp_id  not in (3,7,1);
+
+# =====================BETWEEN===========================
+
+#1 ---Write a SQL statement to find those employee with all information who gets the salary within a range of 11895 and 14000.----
+
+Ans :-  select * from employee where salary between 11895 and 14000
+
+# 2---- Write query to generate report of salary for employee department wise.-----
+
+Ans :- select dept_id, sum(salary) from employee group by dept_id;
+
+# 3--- Write query to DISPLAY salary of employee gender wise.-------------
+
+Ans :- select  sum(salary) from employee group by gender;
+
+# 4---Write query to display salary of male employee department wise.-----
+
+Ans :- select dept_id, sum(salary) from employee where gender='male' group by dept_id;
+
+# 5---Write query to display salary of female employee department wise.-----
+
+Ans :- select dept_id, sum(salary) from employee where gender='female' group by dept_id;
+
+# 6 ---Write query to display salary of employee department wise and gender wise.-----
+
+Ans :-  select (dept_id,gender,salary) from employee
+
+# 7 --- Write query to display lowest 5 salaris. ------------
+
+Ans :- select * from employee e where 5 > (select count(*) from employee where e.salary > salary)
+
+# 8 --- Write query to display Hightest 5 salaris.-----
+
+Ans :- select * from employee e where 5>(select count(*) from employee where e.salary < salary)
+
+# 9 --- Write query to display salary between 5000 and 10,000.
+
+Ans :- select *from employee where salary between 5000 and 10000;
+
+# 10------Write query to display employees whose joining month is Feb-----------
+
+Ans :-  select *from employee where to_char(join_date, 'mon')='feb';
+
+# 11 ---- Write query to display employees whose joining month and year is sep 2014. ------
+
+Ans :-  select * from employee where join_date between '2014-07-01' and '2014-07-31'
+
+#==================== 12 ---- Write query to use regex.----. =====================================
+
+# a. ---Write a SQL statement to find those employee with all other information and name started with any latter 'A'.----
+
+Ans :- select *from employee where emp_name like 'a%'
+
+# b. --- Wrire a Query to find all the names starting with 'st'. ----
+
+Ans :- select *from employee where emp_name like 'st%'
+
+# c. --- Wrire a Query to find all the names ending with 'ak'.
+
+Ans :- select *from employee where emp_name like '%ak'
+
+# d. --- Wrire a Query to find all the names, which contain 'ris'. ---
+
+Ans :- select *from employee where emp_name like '%ris%'
+
+# e. --- Wrire a Query to find all the names starting with a vowel and ending with 'n'. ---
+
+Ans :- select *from employee where emp_name like 'a%n'
+
+#============13. Write query for Left, Right and Inner Join.======================================
+
+# a. ---Write a SQL statement to prepare a list with employee name, gender,department name of the employee.---------------
+
+Ans :-  	
+
+
+# ---b. Write a SQL statement display all information of employee with depatment name of those employee whose salary is in range of 12000 to 19000. -----
+
+Ans :- select employee.emp_id,employee.emp_name,employee.email,employee.dob_date,employee.join_date,employee.salary,employee.gender,department.dept_name
+        from employee full join department on department.dept_id = employee.emp_id where salary between 12000 and 19000;
+
+# --- c. write a sql query to display how many employee works in each department whose salary is in range 15000 to 19000. -------
+
+Ans :- select (department.dept_id,department.dept_name) from employee left join department on department.dept_id = employee.emp_id where salary between 15000 and 19000;
+
+# =======================14. Write query for Aggregate function=============================
+
+# ----a. Write a SQL statement to find the average salary.-----------
+
+Ans :- select avg(salary) from employee
+
+
+# ----b. 1. Write a SQL statement to find minimum and maximum salary in employee table----
+
+Ans :- select min(salary) from employee
+
+Ans :- select max(salary) from employee
+
+
+# -----b. 2. Write a query to find employee whose having minmum and maximum salary ------
+
+Ans :- select emp_name,salary from employee where salary=(select max(salary) from employee)
+
+Ans :- select emp_name,salary from employee where salary=(select min(salary) from employee)
+
+# ---- c. Write a SQL statement to count how many employee works in marketing department.----------
+
+Ans :-  select count(dept_id) from employee where dept_id = (select dept_id from department where dept_name = 'marketing');
+
+# ===============15. Concat function and date function==========================
+
+Ans :- select concat(emp_name,'    ' ,join_date) from employee
+
+Ans :- select current_date;
+       select now();
+       select now()::date;
+       select to_char(now()::date, 'dd/mm/yyyy');
+
+Ans:-  Age :- select age(timestamp '2023-05-30' , timestamp '1999-10-01')

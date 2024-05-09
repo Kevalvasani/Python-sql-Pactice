@@ -1,0 +1,11 @@
+string=""""
+a
+s
+d
+d
+f
+gf
+d
+d
+"""
+print(string)
